@@ -9,7 +9,7 @@ import Hero from '../view/hero';
 
 const FHMStack = createStackNavigator();
 
-function FMHSTackNavigator() {
+function FHMSTackNavigator() {
   return (
     <FHMStack.Navigator>
       <FHMStack.Screen name="SignIn" component={SignIn} />
@@ -24,7 +24,7 @@ function FMHSTackNavigator() {
 function RootNavigator() {
   return (
     <NavigationContainer>
-      <FMHSTackNavigator />
+      <FHMSTackNavigator />
     </NavigationContainer>
   );
 }
