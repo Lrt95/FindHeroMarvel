@@ -1,98 +1,89 @@
-import React, {useState} from 'react';
-import {TouchableOpacity ,Image, View, StyleSheet, FlatList, StatusBar, ScrollView} from 'react-native';
-import { Button, Card, Title, Paragraph, Text, List, Modal, Portal } from 'react-native-paper';
-import { ListItem, Avatar } from 'react-native-elements';
+import React, {Component} from 'react';
+import {View, FlatList, Image, ImageBackground, StyleSheet} from 'react-native';
+import {ActivityIndicator, Text} from 'react-native-paper';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 
-function Item({ item }) {
-  return (
-    <View style={styles.listItem}>
-      <TouchableOpacity onPress={()=> {
-          console.log('BIMbiiiim detail');
+class hero extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            data: [],
+            page: 1,
+            isLoading: false
         }
-      }>
-      <Image source={{uri:item.photo}}  style={{width:90, height:90}} />
-    </TouchableOpacity>
-    <View style={{alignItems:"center",flex:1}}>
-      <Text style={{fontWeight:"bold"}}>{item.name}</Text>
-      <Text>{item.description}</Text>
-    </View>
-  </View>
-);
-}
+    }
 
-export default class hero extends React.Component {
-  state = {
-    data:[
-      {
-        "name": "Batman",
-        "description": " ",
-        "photo": "https://i.annihil.us/u/prod/marvel/i/mg/3/b0/526955e3c7c41/portrait_medium.jpg"
-      },
-      {
-        "name": "Superman",
-        "description": " ",
-        "photo": "http://x.annihil.us/u/prod/marvel/i/mg/3/40/4bb4680432f73/portrait_medium.jpg"
-      },
-      {
-        "name": "Captain",
-        "description": "Blablabla",
-        "photo": "https://i.annihil.us/u/prod/marvel/i/mg/3/b0/526955e3c7c41/portrait_medium.jpg"
-      },
-      {
-        "name": "Spider-Man",
-        "description": "hahahaha",
-        "photo": "https://i.annihil.us/u/prod/marvel/i/mg/3/b0/526955e3c7c41/portrait_medium.jpg"
-      },
-      {
-        "name": "HULK",
-        "description": "Brrrahhhh",
-        "photo": "https://i.annihil.us/u/prod/marvel/i/mg/3/b0/526955e3c7c41/portrait_medium.jpg"
-      },
-      {
-        "name": "Iron Man",
-        "description": "Brrrahhhh",
-        "photo": "https://i.annihil.us/u/prod/marvel/i/mg/3/b0/526955e3c7c41/portrait_medium.jpg"
-      },
-      {
-        "name": "Black Window",
-        "description": "Brrrahhhh",
-        "photo": "https://i.annihil.us/u/prod/marvel/i/mg/3/b0/526955e3c7c41/portrait_medium.jpg"
-      },
-      {
-        "name": "Thor",
-        "description": "Brrrahhhh",
-        "photo": "https://i.annihil.us/u/prod/marvel/i/mg/3/b0/526955e3c7c41/portrait_medium.jpg"
-      }
-    ]
-  }
+    componentDidMount() {
+        const apiUrl = "https://jsonplaceholder.typicode.com/photos?_limit=10&_page=1"
+        fetch(apiUrl).then(res => res.json())
+            .then(resJosn => {
+                this.setState({data: resJosn})
+            })
+    }
 
-  render(){
-    return (
-      <View style={styles.container}>
-        <FlatList
-          style={{flex:1}}
-          data={this.state.data}
-          renderItem={({ item }) => <Item item={item}/>}
-        />
-      </View>
-    );
-  }
+    renderView = ({item}) => {
+        return (
+            <ImageBackground
+                source={{uri: item.thumbnailUrl}}
+                style={styles.img}>
+                <Text> {item.id} </Text>
+                <Text> {item.title} </Text>
+            </ImageBackground>
+        )
+    }
+
+    handleLoadMore = async () => {
+        await this.setState({page: this.state.page + 1, isLoading: true})
+        const apiUrl = "https://jsonplaceholder.typicode.com/photos?_limit=10&_page=" + this.state.page
+        fetch(apiUrl).then(res => res.json())
+            .then(resJosn => {
+                this.setState({data: this.state.data.concat(resJosn), isLoading: false})
+            })
+    }
+
+    footerList = () => {
+        return (
+            <View>
+                <ActivityIndicator color={Colors.red800} loading={this.state.isLoading} size={large}/>
+            </View>
+        )
+    }
+
+    render() {
+        return (
+            <View style={styles.container}>
+                <FlatList
+                    style={styles.flat}
+                    data={this.state.data}
+                    renderItem={this.renderView}
+                    keyExtractor={(item, index) => index.toString()}
+                    onEndReached={this.handleLoadMore}
+                />
+            </View>
+        );
+    }
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'white',
-  },
-  listItem:{
-    margin:10,
-    padding:10,
-    backgroundColor:"#D7D7D7",
-    width:"90%",
-    flex:1,
-    alignSelf:"center",
-    flexDirection:"row",
-    borderRadius:5
-  }
-});
+    img: {
+        justifyContent: "center",
+        alignItems: "center",
+        marginBottom: 30,
+        paddingBottom: 60,
+        height: 120,
+        width: 350,
+        borderWidth: 1,
+    },
+    flat: {
+        flex: 1,
+    },
+    container: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+    },
+})
+
+
+export default hero;
