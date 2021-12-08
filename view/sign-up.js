@@ -1,13 +1,39 @@
 import * as React from 'react';
-import {View} from 'react-native';
-import {Text} from 'react-native-paper';
+import {StyleSheet} from 'react-native';
+import {Card, Text} from 'react-native-paper';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import FormSignUp from '../components/form-sign-up';
 
-function SignUp() {
+function SignUp({navigation}) {
   return (
-    <View>
-      <Text>Hello SignUp</Text>
-    </View>
+    <KeyboardAwareScrollView contentContainerStyle={{flexGrow: 1}}>
+      <Card style={styles.container}>
+        <Card.Content style={styles.containerLogo}>
+          <Text style={styles.title}>FHM</Text>
+        </Card.Content>
+        <Card.Content style={styles.containerFormik}>
+          <FormSignUp navigation={navigation} />
+        </Card.Content>
+      </Card>
+    </KeyboardAwareScrollView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  containerLogo: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  title: {
+    fontSize: 70,
+    fontWeight: 'bold',
+  },
+  containerFormik: {
+    flex: 1,
+  },
+});
 
 export default SignUp;

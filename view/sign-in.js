@@ -1,51 +1,46 @@
 import * as React from 'react';
-import {StyleSheet, View} from 'react-native';
-import {Button, Text} from 'react-native-paper';
+import {StyleSheet} from 'react-native';
+import {Card, Text} from 'react-native-paper';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import FormSignIn from '../components/form-sign-in';
 
-function SignIn(props) {
+function SignIn({navigation}) {
   return (
-    <View style={styles.container}>
-      <View style={styles.containerText}>
-        <Text>Hello SignIn</Text>
-      </View>
-      <View style={styles.containerButton}>
-        <Button
-          mode="contained"
-          onPress={() => props.navigation.navigate('SignUp')}>
-          Sign Up
-        </Button>
-        <Button
-          mode="contained"
-          onPress={() => props.navigation.navigate('SignIn')}>
-          SignIn
-        </Button>
-        <Button
-          mode="contained"
-          onPress={() => props.navigation.navigate('Home')}>
-          Home
-        </Button>
-        <Button
-          mode="contained"
-          onPress={() => props.navigation.navigate('Description')}>
-          Description
-        </Button>
-        <Button
-          mode="contained"
-          onPress={() => props.navigation.navigate('Hero')}>
-          Hero
-        </Button>
-      </View>
-    </View>
+    <KeyboardAwareScrollView contentContainerStyle={{flexGrow: 1}}>
+      <Card style={styles.container}>
+        <Card.Content style={styles.containerLogo}>
+          <Text style={styles.title}>FHM</Text>
+        </Card.Content>
+        <Card.Content style={styles.containerFormik}>
+          <FormSignIn navigation={navigation} />
+        </Card.Content>
+      </Card>
+    </KeyboardAwareScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {flex: 1, alignItems: 'center', justifyContent: 'center'},
-  containerText: {flex: 1, alignItems: 'center', justifyContent: 'center'},
-  containerButton: {
-    flex: 3,
+  container: {
+    flex: 1,
+  },
+  containerLogo: {
     alignItems: 'center',
-    justifyContent: 'space-around',
+    justifyContent: 'center',
+  },
+  title: {
+    fontSize: 70,
+    fontWeight: 'bold',
+  },
+  containerFormik: {
+    flex: 1,
+  },
+  containerInput: {
+    flex: 1,
+  },
+  containerButton: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 
