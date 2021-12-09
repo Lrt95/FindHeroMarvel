@@ -1,13 +1,14 @@
 import * as React from 'react';
 import {StyleSheet} from 'react-native';
-import {Card, Text} from 'react-native-paper';
+import {Card, Text, useTheme} from 'react-native-paper';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import FormSignUp from '../components/form-sign-up';
 
 function SignUp({navigation}) {
+  const theme = useTheme();
   return (
     <KeyboardAwareScrollView contentContainerStyle={{flexGrow: 1}}>
-      <Card style={styles.container}>
+      <Card style={{flex: 1, backgroundColor: theme.colors.background}}>
         <Card.Content style={styles.containerLogo}>
           <Text style={styles.title}>FHM</Text>
         </Card.Content>
@@ -28,8 +29,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   title: {
-    fontSize: 70,
+    fontSize: 100,
     fontWeight: 'bold',
+    color: 'white',
   },
   containerFormik: {
     flex: 1,

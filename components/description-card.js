@@ -12,7 +12,10 @@ export function DescriptionCard(props) {
         renderItem={({item, index}) => {
           return (
             <View>
-              <Image style={{width: 50, height: 50}} source={{uri: item.image}} />
+              <Image
+                style={{width: 50, height: 50}}
+                source={{uri: item.image}}
+              />
               <Text style={styles.cardText} ref={index}>
                 {item.name}
               </Text>

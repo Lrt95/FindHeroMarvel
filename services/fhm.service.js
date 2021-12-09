@@ -18,7 +18,8 @@ export function getAllHeroesMarvel(offset, limit) {
           id: hero.id,
           name: hero.name,
           image: url + SIZE_IMAGE + hero.thumbnail.extension,
-          description: hero.description,
+          description:
+            hero.description === '' ? 'No description' : hero.description,
         };
       });
     })
@@ -39,7 +40,8 @@ export function getHeroMarvel(id) {
         return {
           name: hero.name,
           image: url + SIZE_IMAGE + hero.thumbnail.extension,
-          description: hero.description,
+          description:
+            hero.description === '' ? 'No description' : hero.description,
           comics: hero.comics.items,
           series: hero.series.items,
           stories: hero.stories.items,

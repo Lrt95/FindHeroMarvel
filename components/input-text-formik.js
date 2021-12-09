@@ -5,7 +5,9 @@ function InputTextFormik(props) {
   return (
     <>
       <TextInput
+        style={{backgroundColor: 'white'}}
         label={props.label}
+        theme={{ colors: 'black' }}
         mode="outlined"
         value={props.values}
         error={!!(props.touched && props.errors)}
@@ -13,7 +15,10 @@ function InputTextFormik(props) {
         onBlur={props.onBlur}
         secureTextEntry={props.secureTextEntry}
       />
-      <HelperText type="error" visible={!!(props.touched && props.errors)}>
+      <HelperText
+        theme={{colors: 'black'}}
+        type="error"
+        visible={!!(props.touched && props.errors)}>
         {props.errors}
       </HelperText>
     </>
