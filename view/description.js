@@ -20,6 +20,7 @@ function Description() {
     setHero(res[0]);
     const comic = await getComicsMarvel(1009146);
     setComics(comic[0]);
+    console.log(comic);
   }, []);
 
   useEffect(() => {

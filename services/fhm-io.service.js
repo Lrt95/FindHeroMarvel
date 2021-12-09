@@ -7,10 +7,10 @@ import {
 import MD5 from 'crypto-js/md5';
 
 const PATH_GET_HEROES = '/characters';
-const PATH_GET_COMICS = '/comics';
-const PATH_GET_EVENTS = '/events';
-const PATH_GET_SERIES = '/series';
-const PATH_GET_STORIES = '/stories';
+const PATH_GET_COMICS = '/comics?';
+const PATH_GET_EVENTS = '/events?';
+const PATH_GET_SERIES = '/series?';
+const PATH_GET_STORIES = '/stories?';
 const LIMIT = '?limit=';
 const OFFSET = '&offset=';
 const TIMESTAMP = '&ts=';
@@ -67,7 +67,6 @@ export async function getComicsMarvelIo(id) {
     PATH_GET_HEROES +
     '/' +
     id +
-    '?' +
     PATH_GET_COMICS +
     TIMESTAMP +
     currentTimestamp +
@@ -75,6 +74,7 @@ export async function getComicsMarvelIo(id) {
     PUBLIC_KEY_MARVEL +
     HASH +
     hashMD5;
+  console.log(url);
   return await getRequest(url);
 }
 
@@ -85,7 +85,6 @@ export async function getEventsMarvelIo(id) {
     PATH_GET_HEROES +
     '/' +
     id +
-    '?' +
     PATH_GET_EVENTS +
     TIMESTAMP +
     currentTimestamp +
@@ -103,7 +102,6 @@ export async function getSeriesMarvelIo(id) {
     PATH_GET_HEROES +
     '/' +
     id +
-    '?' +
     PATH_GET_SERIES +
     TIMESTAMP +
     currentTimestamp +
@@ -121,7 +119,6 @@ export async function getStoriesMarvelIo(id) {
     PATH_GET_HEROES +
     '/' +
     id +
-    '?' +
     PATH_GET_STORIES +
     TIMESTAMP +
     currentTimestamp +
