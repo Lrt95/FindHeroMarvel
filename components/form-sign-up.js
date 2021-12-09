@@ -45,7 +45,6 @@ function FormSignUp(props) {
         .auth()
         .createUserWithEmailAndPassword(data.email, data.password)
         .then(res => {
-          console.log(res);
           if (res.user) {
             displayToast('Le compte à bien été crée !');
             props.navigation.navigate('SignIn');

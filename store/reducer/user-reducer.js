@@ -13,11 +13,15 @@ export const userSlice = createSlice({
       state.user.email = action.payload;
     },
     addLike: (state, action) => {
-      state.user.email.push(action.payload);
+      state.user.likes.push(action.payload);
+    },
+    disLike: (state, action) => {
+      console.log('action', action);
+      state.user.likes.splice(state.user.likes.indexOf(action.payload), 1);
     },
   },
 });
 
-export const {setUser, addLike} = userSlice.actions;
+export const {setUser, addLike, disLike} = userSlice.actions;
 
 export default userSlice.reducer;

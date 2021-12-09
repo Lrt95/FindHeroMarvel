@@ -1,4 +1,8 @@
-import {getAllHeroesMarvelIo, getHeroMarvelIo} from './fhm-io.service';
+import {
+  getAllHeroesMarvelIo,
+  getComicsMarvelIo,
+  getHeroMarvelIo,
+} from './fhm-io.service';
 
 const SIZE_IMAGE = '/portrait_large.';
 
@@ -36,6 +40,30 @@ export function getHeroMarvel(id) {
           name: hero.name,
           image: url + SIZE_IMAGE + hero.thumbnail.extension,
           description: hero.description,
+          comics: hero.comics.items,
+          series: hero.series.items,
+          stories: hero.stories.items,
+          events: hero.events.items,
+        };
+      });
+    })
+    .catch(error => {
+      console.log(error);
+      return [];
+    });
+}
+
+export function getComicsMarvel(id) {
+  return getComicsMarvelIo(id)
+    .then(result => {
+      const comics = result?.data?.data?.results
+        ? result?.data?.data?.results
+        : [];
+      return comics.map(comic => {
+        const url = transformHttpToHttps(comic.thumbnail.path);
+        return {
+          name: comic.title,
+          image: url + SIZE_IMAGE + comic.thumbnail.extension,
         };
       });
     })

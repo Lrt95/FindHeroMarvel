@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import {
   View,
   FlatList,
@@ -7,18 +7,24 @@ import {
   ActivityIndicator,
   StatusBar,
   TouchableOpacity,
+  TextInput,
 } from 'react-native';
-import { FAB, Text } from "react-native-paper";
+import {FAB, Text} from 'react-native-paper';
 import {getAllHeroesMarvel} from '../services/fhm.service';
 
 const Home = ({navigation}) => {
   const [heroes, setHeroes] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+  const [search, setSearch] = React.useState('');
 
   useEffect(() => {
     getHeroes();
   }, []);
+
+  const heroesFiltered = useMemo(() => {
+    return heroes.filter(hero => hero.name.includes(search));
+  }, [heroes, search]);
 
   const getHeroes = () => {
     if (!isLoading) {
@@ -60,21 +66,27 @@ const Home = ({navigation}) => {
 
   return (
     <View>
-      <StatusBar backgroundColor="#000" />
-      <FlatList
-        data={heroes}
-        renderItem={renderItem}
-        keyExtractor={(item, index) => item.name + index}
-        ListFooterComponent={renderLoader}
-        onEndReached={getHeroes}
-        onEndReachedThreshold={20}
-      />
       <FAB
         label={'Quel(le) héro(ine) je suis ?'}
         style={styles.fab}
         small
         onPress={() => navigation.navigate('Hero', {name: null})}
       />
+      <TextInput
+        onChangeText={setSearch}
+        value={search}
+        style={styles.inputSearch}
+        placeholder="Recherche"
+      />
+      <FlatList
+        data={heroesFiltered}
+        renderItem={renderItem}
+        keyExtractor={(item, index) => item.name + index}
+        ListFooterComponent={renderLoader}
+        onEndReached={getHeroes}
+        onEndReachedThreshold={20}
+      />
+
     </View>
   );
 };
@@ -109,8 +121,15 @@ const styles = StyleSheet.create({
   fab: {
     position: 'absolute',
     margin: 16,
-    right: 0,
-    bottom: 0,
+    left: 0,
+    top: 0,
+  },
+  inputSearch: {
+    height: 40,
+    width: '100%',
+    margin: 12,
+    borderWidth: 1,
+    padding: 10,
   },
 });
 
