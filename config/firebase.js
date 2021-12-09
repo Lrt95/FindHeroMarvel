@@ -1,3 +1,5 @@
+
+import '@firebase/auth';
 import firebase from 'firebase/compat';
 
 export const firebaseConfig = {
@@ -10,4 +12,8 @@ export const firebaseConfig = {
   measurementId: '${config.measurementId}',
 };
 
-export default firebase;
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
+
+export {firebase};

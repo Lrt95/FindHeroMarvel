@@ -13,7 +13,7 @@ import {
 import InputTextFormik from './input-text-formik';
 import {Button, Text} from 'react-native-paper';
 import Spinner from './spinner';
-import firebase from 'firebase/compat';
+import {firebase} from '../config/firebase';
 
 function FormSignUp(props) {
   const [inLoggin, setInLoggin] = useState(false);
@@ -40,7 +40,7 @@ function FormSignUp(props) {
         password: values.password,
       };
       setInLoggin(true);
-      console.log('sign');
+
       firebase
         .auth()
         .createUserWithEmailAndPassword(data.email, data.password)

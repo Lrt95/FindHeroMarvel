@@ -3,8 +3,18 @@ import {StyleSheet} from 'react-native';
 import {Card, Text} from 'react-native-paper';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import FormSignIn from '../components/form-sign-in';
+import {useSelector} from 'react-redux';
+import {useEffect} from 'react';
 
 function SignIn({navigation}) {
+  const user = useSelector(state => state.user.user);
+
+  useEffect(() => {
+    if (user.email !== '') {
+      navigation.navigate('Home');
+    }
+  }, [navigation, user.email]);
+
   return (
     <KeyboardAwareScrollView contentContainerStyle={{flexGrow: 1}}>
       <Card style={styles.container}>

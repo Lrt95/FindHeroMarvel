@@ -1,50 +1,43 @@
 import React from 'react';
 import {Formik} from 'formik';
 import {
-  Alert,
-  Platform,
   Text,
-  ToastAndroid,
   TouchableOpacity,
   View,
-  StyleSheet,
-} from 'react-native';
+  StyleSheet, LogBox,
+} from "react-native";
 import {Button} from 'react-native-paper';
 import InputTextFormik from './input-text-formik';
 import {validationSchema} from '../constantes/forms-validatations';
 import Spinner from './spinner';
 import {useState} from 'react';
+import {firebase} from '../config/firebase';
+import {useDispatch} from 'react-redux';
+import {setUser} from '../store/reducer/user-reducer';
 
 function FormSignIn(props) {
   const [inLoggin, setInLoggin] = useState(false);
+  const dispatch = useDispatch();
 
-  function displayToast(message) {
-    if (Platform.OS === 'android') {
-      ToastAndroid.show(message, ToastAndroid.LONG);
-    } else {
-      Alert.alert(message);
-    }
-  }
+  LogBox.ignoreLogs(['Require cycle:']);
 
   async function getSignIn(values, action) {
     const data = {email: values.email, password: values.password};
     setInLoggin(true);
-    // setSignIn(data).then(result => {
-    //   this.setState({...this.state, inLogin: false});
-    //   if (result.status === 401) {
-    //     action.setErrors({
-    //       email: "L'adresse mail est introuvable !",
-    //       password: 'Le mot de passe est incorrect !',
-    //     });
-    //   } else if (result.status === 201) {
-    //     this.displayToast('Bienvenue ' + result.data.pseudo + ' !');
-    //     this.props.getUser(result.data);
-    //     this.props.loggin(true);
-    //     this.props.navigation.navigate('game');
-    //   } else {
-    //     this.displayToast('Erreur requête login !');
-    //   }
-    // });
+    console.log('signIn');
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(data.email, data.password)
+      .then(response => {
+        if (response.user) {
+          dispatch(setUser(response.user.email));
+        }
+        setInLoggin(false);
+      })
+      .catch(error => {
+        console.log(error);
+        setInLoggin(false);
+      });
   }
 
   function onBlurInputSignMail(setFieldTouched) {

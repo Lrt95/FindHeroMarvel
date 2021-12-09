@@ -11,8 +11,9 @@ import type {Node} from 'react';
 import {SafeAreaView, StyleSheet} from 'react-native';
 import {DefaultTheme, Provider as PaperProvider} from 'react-native-paper';
 import RootNavigator from './navigation/root-navigator';
-import firebase from "firebase/compat";
-import { firebaseConfig } from "./config/config";
+import {Provider} from 'react-redux';
+import {store, persistor} from './store/configure-store';
+import {PersistGate} from 'redux-persist/integration/react';
 
 const theme = {
   ...DefaultTheme,
@@ -23,15 +24,17 @@ const theme = {
   },
 };
 
-firebase.initializeApp(firebaseConfig);
-
 const App: () => Node = () => {
   return (
-    <SafeAreaView style={styles.container}>
-      <PaperProvider theme={theme}>
-        <RootNavigator />
-      </PaperProvider>
-    </SafeAreaView>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <SafeAreaView style={styles.container}>
+          <PaperProvider theme={theme}>
+            <RootNavigator />
+          </PaperProvider>
+        </SafeAreaView>
+      </PersistGate>
+    </Provider>
   );
 };
 
