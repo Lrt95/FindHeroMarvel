@@ -10,11 +10,11 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "@react-native-firebase/app": "^13.1.0",
     "@react-navigation/native": "^6.0.6",
     "@react-navigation/stack": "^6.0.11",
     "axios": "^0.24.0",
     "crypto-js": "^4.1.1",
+    "firebase": "^9.6.0",
     "formik": "^2.2.9",
     "react": "17.0.2",
     "react-native": "0.66.3",

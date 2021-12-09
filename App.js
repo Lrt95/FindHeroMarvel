@@ -11,6 +11,8 @@ import type {Node} from 'react';
 import {SafeAreaView, StyleSheet} from 'react-native';
 import {DefaultTheme, Provider as PaperProvider} from 'react-native-paper';
 import RootNavigator from './navigation/root-navigator';
+import firebase from "firebase/compat";
+import { firebaseConfig } from "./config/config";
 
 const theme = {
   ...DefaultTheme,
@@ -20,6 +22,8 @@ const theme = {
     accent: 'yellow',
   },
 };
+
+firebase.initializeApp(firebaseConfig);
 
 const App: () => Node = () => {
   return (

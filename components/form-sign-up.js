@@ -1,13 +1,32 @@
 import React, {useState} from 'react';
 import {Formik} from 'formik';
 import {validationSchema} from '../constantes/forms-validatations';
-import {TouchableOpacity, View, StyleSheet} from 'react-native';
+import {
+  TouchableOpacity,
+  View,
+  StyleSheet,
+  Platform,
+  ToastAndroid,
+  Alert,
+  LogBox,
+} from 'react-native';
 import InputTextFormik from './input-text-formik';
 import {Button, Text} from 'react-native-paper';
 import Spinner from './spinner';
+import firebase from 'firebase/compat';
 
 function FormSignUp(props) {
   const [inLoggin, setInLoggin] = useState(false);
+
+  LogBox.ignoreLogs(['Require cycle:']);
+
+  function displayToast(message) {
+    if (Platform.OS === 'android') {
+      ToastAndroid.show(message, ToastAndroid.LONG);
+    } else {
+      Alert.alert(message);
+    }
+  }
 
   async function registryUser(values, action) {
     if (values.password !== values.confirmPassword) {
@@ -21,25 +40,23 @@ function FormSignUp(props) {
         password: values.password,
       };
       setInLoggin(true);
+      console.log('sign');
+      firebase
+        .auth()
+        .createUserWithEmailAndPassword(data.email, data.password)
+        .then(res => {
+          console.log(res);
+          if (res.user) {
+            displayToast('Le compte à bien été crée !');
+            props.navigation.navigate('SignIn');
+          }
+          setInLoggin(false);
+        })
+        .catch(error => {
+          setInLoggin(false);
+          console.log(error);
+        });
     }
-
-    // setSignUp(data).then(result => {
-    //   this.setState({...this.state, inLogin: false})
-    //   if (result["status"] === 401) {
-    //     action.setErrors({
-    //       pseudo: "Le pseudo est déjà utilisé !",
-    //       email: "L'adresse mail est déjà utilisé!"
-    //     });
-    //   } else if (result["status"] === 201) {
-    //     this.displayToast('Bienvenue ' + result['data'].pseudo + " !");
-    //     this.props.getUser(result['data']);
-    //     this.props.loggin(true);
-    //     this.props.facebookOrGoogle(false);
-    //     this.props.navigation.navigate("profileStack");
-    //   } else {
-    //     this.displayToast('Erreur requête login !');
-    //   }
-    // })
   }
 
   function onBlurInput(setFieldTouched, field) {
