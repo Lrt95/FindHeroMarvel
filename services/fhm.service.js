@@ -1,6 +1,10 @@
-import {getAllHeroesMarvelIo, getHeroMarvelIo} from './fhm-io.service';
+import {
+  getAllHeroesMarvelIo,
+  getComicsMarvelIo,
+  getHeroMarvelIo,
+} from './fhm-io.service';
 
-const SIZE_IMAGE = '/portrait_medium.';
+const SIZE_IMAGE = '/portrait_large.';
 
 export function getAllHeroesMarvel(offset, limit) {
   return getAllHeroesMarvelIo(offset, limit)
@@ -9,9 +13,11 @@ export function getAllHeroesMarvel(offset, limit) {
         ? result?.data?.data?.results
         : [];
       return heroes.map(hero => {
+        const url = transformHttpToHttps(hero.thumbnail.path);
         return {
+          id: hero.id,
           name: hero.name,
-          image: hero.thumbnail.path + SIZE_IMAGE + hero.thumbnail.extension,
+          image: url + SIZE_IMAGE + hero.thumbnail.extension,
           description: hero.description,
         };
       });
@@ -29,10 +35,35 @@ export function getHeroMarvel(id) {
         ? result?.data?.data?.results
         : [];
       return heroes.map(hero => {
+        const url = transformHttpToHttps(hero.thumbnail.path);
         return {
           name: hero.name,
-          image: hero.thumbnail.path + SIZE_IMAGE + hero.thumbnail.extension,
+          image: url + SIZE_IMAGE + hero.thumbnail.extension,
           description: hero.description,
+          comics: hero.comics.items,
+          series: hero.series.items,
+          stories: hero.stories.items,
+          events: hero.events.items,
+        };
+      });
+    })
+    .catch(error => {
+      console.log(error);
+      return [];
+    });
+}
+
+export function getComicsMarvel(id) {
+  return getComicsMarvelIo(id)
+    .then(result => {
+      const comics = result?.data?.data?.results
+        ? result?.data?.data?.results
+        : [];
+      return comics.map(comic => {
+        const url = transformHttpToHttps(comic.thumbnail.path);
+        return {
+          name: comic.title,
+          image: url + SIZE_IMAGE + comic.thumbnail.extension,
         };
       });
     })
@@ -56,4 +87,15 @@ export async function getFindMyHero() {
 
 function randomNumberBetween(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function transformHttpToHttps(url) {
+  let urlHttps = '';
+  const tab = url.split(':');
+  let https = tab[0];
+  if (https === 'http') {
+    https = 'https';
+  }
+  urlHttps = https + ':' + tab[1];
+  return urlHttps;
 }

@@ -12,11 +12,47 @@ const FHMStack = createStackNavigator();
 function FHMSTackNavigator() {
   return (
     <FHMStack.Navigator>
-      <FHMStack.Screen name="SignIn" component={SignIn} />
-      <FHMStack.Screen name="SignUp" component={SignUp} />
-      <FHMStack.Screen name="Home" component={Home} />
-      <FHMStack.Screen name="Description" component={Description} />
-      <FHMStack.Screen name="Hero" component={Hero} />
+      <FHMStack.Screen 
+      name="SignIn"
+      component={SignIn}
+      options={{ 
+        title: 'Bienvenue sur FHM !',
+        headerTitleAlign: 'center',
+      }}
+      />
+      <FHMStack.Screen 
+        name="SignUp"
+        component={SignUp}
+        options={{ 
+          title: 'Inscription',
+          headerTitleAlign: 'center',
+        }}
+      />
+      <FHMStack.Screen
+        name="Home"
+        component={Home}
+        options={{
+          headerLeft: null, 
+          gestureEnabled: false,
+          title: 'Accueil',
+          headerTitleAlign: 'center',
+          }}
+        />
+      <FHMStack.Screen 
+        name="Description" 
+        component={Description} 
+        options={{ 
+          title: 'Description',
+          headerTitleAlign: 'center',
+        }}
+      />
+      <FHMStack.Screen
+        name="Hero"
+        component={Hero}
+        options={({route}) => ({
+          title: route.params.name ? route.params.name : 'Qui suis-je ?',
+        })}
+      />
     </FHMStack.Navigator>
   );
 }

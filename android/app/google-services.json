@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "24781246793",
+    "project_id": "findheromarvel",
+    "storage_bucket": "findheromarvel.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:24781246793:android:e7720554f6cb91d77d0a98",
+        "android_client_info": {
+          "package_name": "com.findheromarvel"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "24781246793-tnlsjusoagm943mtgvq1foff2d76r3tk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDaPccyCGxxFPk0ssf7A90wjjTlFTYfgkk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "24781246793-tnlsjusoagm943mtgvq1foff2d76r3tk.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "24781246793-if20o58v1gqpqu5rd1940qaupucf34b4.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.findheromarvel"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

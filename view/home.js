@@ -1,91 +1,135 @@
-import React, { useEffect, useState } from "react";
-import { View, Text, FlatList, Image, StyleSheet, ActivityIndicator, StatusBar } from "react-native";
-import axios from "axios";
+import React, {useEffect, useMemo, useState} from 'react';
+import {
+  View,
+  FlatList,
+  Image,
+  StyleSheet,
+  ActivityIndicator,
+  StatusBar,
+  TouchableOpacity,
+  TextInput,
+} from 'react-native';
+import {FAB, Text} from 'react-native-paper';
+import {getAllHeroesMarvel} from '../services/fhm.service';
 
-const Home = () => {
-  const [users, setUsers] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
+const Home = ({navigation}) => {
+  const [heroes, setHeroes] = useState([]);
+  const [currentPage, setCurrentPage] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+  const [search, setSearch] = React.useState('');
 
-  const getUsers = () => {
-    setIsLoading(true);
-    axios.get(`https://randomuser.me/api/?page=${currentPage}&results=10`)
-      .then(res => {
-        setUsers([...users, ...res.data.results]);
-        setIsLoading(false);
-      });
+  useEffect(() => {
+    getHeroes();
+  }, []);
+
+  const heroesFiltered = useMemo(() => {
+    return heroes.filter(hero => hero.name.includes(search));
+  }, [heroes, search]);
+
+  const getHeroes = () => {
+    if (!isLoading) {
+      setIsLoading(true);
+      getAllHeroesMarvel(currentPage, 100)
+        .then(result => {
+          setHeroes([...heroes, ...result]);
+          setIsLoading(false);
+          setCurrentPage(currentPage + 100);
+        })
+        .catch(error => {
+          setIsLoading(false);
+          console.log(error);
+        });
+    }
   };
 
-  const renderItem = ({ item }) => {
+  const renderItem = ({item}) => {
     return (
-      <View style={styles.container}>
-        <Image style={styles.image} source={{ uri: item.picture.large }} />
+      <TouchableOpacity
+        onPress={() => navigation.navigate('Description', {id: item.id})}
+        style={styles.container}>
+        <Image style={styles.image} source={{uri: item.image}} />
         <View style={styles.textView}>
-          <Text style={styles.txtName}>{`${item.name.title} ${item.name.first} ${item.name.last}`}</Text>
-          <Text style={styles.txtDescription}>{item.email}</Text>
+          <Text style={styles.txtName}>{`${item.name}`}</Text>
+          <Text style={styles.txtDescription}>{item.description}</Text>
         </View>
-      </View>
-      
+      </TouchableOpacity>
     );
   };
 
   const renderLoader = () => {
-    return (
-      isLoading ?
-        <View style={styles.loaderStyle}>
-          <ActivityIndicator size="large" color="#aaa" />
-        </View> : null
-    );
+    return isLoading ? (
+      <View style={styles.loaderStyle}>
+        <ActivityIndicator size="large" color="#aaa" />
+      </View>
+    ) : null;
   };
-
-  const loadMoreItem = () => {
-    setCurrentPage(currentPage + 1);
-  };
-
-  useEffect(() => {
-    getUsers();
-  }, [currentPage]);
 
   return (
-    <>
-      <StatusBar backgroundColor="#000" />
-      <FlatList
-        data={users}
-        renderItem={renderItem}
-        keyExtractor={item => item.email}
-        ListFooterComponent={renderLoader}
-        onEndReached={loadMoreItem}
-        onEndReachedThreshold={0}
+    <View>
+      <FAB
+        label={'Quel(le) héro(ine) je suis ?'}
+        style={styles.fab}
+        small
+        onPress={() => navigation.navigate('Hero', {name: null})}
       />
-    </>
+      <TextInput
+        onChangeText={setSearch}
+        value={search}
+        style={styles.inputSearch}
+        placeholder="Recherche"
+      />
+      <FlatList
+        data={heroesFiltered}
+        renderItem={renderItem}
+        keyExtractor={(item, index) => item.name + index}
+        ListFooterComponent={renderLoader}
+        onEndReached={getHeroes}
+        onEndReachedThreshold={20}
+      />
+
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: "row",
+    flexDirection: 'row',
     paddingHorizontal: 16,
     paddingVertical: 35,
     borderBottomWidth: 1,
-    borderColor: "#ddd",
+    borderColor: '#ddd',
   },
   image: {
     width: 100,
     height: 100,
     marginRight: 16,
+    resizeMode: 'stretch',
   },
   textView: {
-    justifyContent: "space-around",
+    justifyContent: 'space-around',
   },
   txtName: {
     fontSize: 20,
   },
   txtDescription: {
-    color: "#777",
+    color: '#777',
   },
   loaderStyle: {
     marginVertical: 16,
-    alignItems: "center",
+    alignItems: 'center',
+  },
+  fab: {
+    position: 'absolute',
+    margin: 16,
+    left: 0,
+    top: 0,
+  },
+  inputSearch: {
+    height: 40,
+    width: '95%',
+    margin: 12,
+    borderWidth: 1,
+    padding: 10,
   },
 });
 
