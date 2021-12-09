@@ -67,4 +67,12 @@ function FHMSTackNavigator() {
   );
 }
 
-export default FHMSTackNavigator;
+function RootNavigator() {
+  return (
+    <NavigationContainer>
+      <FHMSTackNavigator />
+    </NavigationContainer>
+  );
+}
+
+export default RootNavigator;
