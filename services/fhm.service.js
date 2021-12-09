@@ -11,6 +11,7 @@ export function getAllHeroesMarvel(offset, limit) {
       return heroes.map(hero => {
         const url = transformHttpToHttps(hero.thumbnail.path);
         return {
+          id: hero.id,
           name: hero.name,
           image: url + SIZE_IMAGE + hero.thumbnail.extension,
           description: hero.description,
