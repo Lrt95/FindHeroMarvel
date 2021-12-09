@@ -16,7 +16,11 @@ function FHMSTackNavigator() {
       <FHMStack.Screen name="SignUp" component={SignUp} />
       <FHMStack.Screen name="Home" component={Home} />
       <FHMStack.Screen name="Description" component={Description} />
-      <FHMStack.Screen name="Hero" component={Hero} />
+      <FHMStack.Screen
+        name="Hero"
+        component={Hero}
+        options={({ route }) => ({ title: route.params.name })}
+      />
     </FHMStack.Navigator>
   );
 }
