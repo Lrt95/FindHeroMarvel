@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>24781246793-nhumcvcpftdma5fr87l4lcg37e48mi0n.apps.googleusercontent.com</string>
+	<string>24781246793-if20o58v1gqpqu5rd1940qaupucf34b4.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.24781246793-nhumcvcpftdma5fr87l4lcg37e48mi0n</string>
+	<string>com.googleusercontent.apps.24781246793-if20o58v1gqpqu5rd1940qaupucf34b4</string>
 	<key>API_KEY</key>
 	<string>AIzaSyDHBQafZZK88TtdPMpMhLbt-Q9OAftJg1s</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,7 +13,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.coding.auth</string>
+	<string>com.findheromarvel</string>
 	<key>PROJECT_ID</key>
 	<string>findheromarvel</string>
 	<key>STORAGE_BUCKET</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:24781246793:ios:c1263d7c3a1307a37d0a98</string>
+	<string>1:24781246793:ios:807889945c49fdb37d0a98</string>
 </dict>
 </plist>

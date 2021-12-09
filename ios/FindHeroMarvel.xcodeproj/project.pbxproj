@@ -14,6 +14,7 @@
 		32B6CD7FEFB88837B9AFDB0F /* libPods-FindHeroMarvel-FindHeroMarvelTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4021CFF03C1BA7D84702BFEE /* libPods-FindHeroMarvel-FindHeroMarvelTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		9C68CF71134420A6A29B114E /* libPods-FindHeroMarvel.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 95DA84BE4F098C482AD057E4 /* libPods-FindHeroMarvel.a */; };
+		DDADD86727617F0B0009345D /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = DDADD86627617F0B0009345D /* FirebaseAuth */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,6 +61,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9C68CF71134420A6A29B114E /* libPods-FindHeroMarvel.a in Frameworks */,
+				DDADD86727617F0B0009345D /* FirebaseAuth in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -114,7 +116,6 @@
 				82B9DA7DE929584BA468195C /* Pods-FindHeroMarvel-FindHeroMarvelTests.debug.xcconfig */,
 				6B2CB5806DE3C2358D686B6C /* Pods-FindHeroMarvel-FindHeroMarvelTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -155,7 +156,6 @@
 			children = (
 			);
 			name = Resources;
-			path = "";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -201,6 +201,9 @@
 			dependencies = (
 			);
 			name = FindHeroMarvel;
+			packageProductDependencies = (
+				DDADD86627617F0B0009345D /* FirebaseAuth */,
+			);
 			productName = FindHeroMarvel;
 			productReference = 13B07F961A680F5B00A75B9A /* FindHeroMarvel.app */;
 			productType = "com.apple.product-type.application";
@@ -231,6 +234,9 @@
 				Base,
 			);
 			mainGroup = 83CBB9F61A601CBA00E9B192;
+			packageReferences = (
+				DDADD86527617F0B0009345D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -707,6 +713,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		DDADD86527617F0B0009345D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		DDADD86627617F0B0009345D /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DDADD86527617F0B0009345D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 83CBB9F71A601CBA00E9B192 /* Project object */;
 }
