@@ -1,89 +1,129 @@
-import React, {Component} from 'react';
-import {View, FlatList, Image, ImageBackground, StyleSheet} from 'react-native';
-import {ActivityIndicator, Text} from 'react-native-paper';
-import {Colors} from 'react-native/Libraries/NewAppScreen';
-
+import React, { Component } from 'react';
+import { SafeAreaView, StyleSheet, Text, FlatList, View, ActivityIndicator, Image, TouchableOpacity } from 'react-native';
+import axois from 'axios';
 
 class hero extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            data: [],
-            page: 1,
-            isLoading: false
-        }
-    }
 
-    componentDidMount() {
-        const apiUrl = "https://jsonplaceholder.typicode.com/photos?_limit=10&_page=1"
-        fetch(apiUrl).then(res => res.json())
-            .then(resJosn => {
-                this.setState({data: resJosn})
-            })
-    }
+  page = 1;
 
-    renderView = ({item}) => {
-        return (
-            <ImageBackground
-                source={{uri: item.thumbnailUrl}}
-                style={styles.img}>
-                <Text> {item.id} </Text>
-                <Text> {item.title} </Text>
-            </ImageBackground>
-        )
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: [],
+      hasNextPage: false
     }
+  }
 
-    handleLoadMore = async () => {
-        await this.setState({page: this.state.page + 1, isLoading: true})
-        const apiUrl = "https://jsonplaceholder.typicode.com/photos?_limit=10&_page=" + this.state.page
-        fetch(apiUrl).then(res => res.json())
-            .then(resJosn => {
-                this.setState({data: this.state.data.concat(resJosn), isLoading: false})
-            })
-    }
+  componentDidMount() {
+    this.getProducts();
+  }
 
-    footerList = () => {
-        return (
-            <View>
-                <ActivityIndicator color={Colors.red800} loading={this.state.isLoading} size={large}/>
-            </View>
-        )
-    }
+  getProducts = async () => {
 
-    render() {
-        return (
-            <View style={styles.container}>
-                <FlatList
-                    style={styles.flat}
-                    data={this.state.data}
-                    renderItem={this.renderView}
-                    keyExtractor={(item, index) => index.toString()}
-                    onEndReached={this.handleLoadMore}
-                />
-            </View>
-        );
+    try {
+      const res = await axois.get(`https://jsonplaceholder.typicode.com/photos?_limit=10&_page=${this.page}`);
+      console.log("res:", res);
+      this.setState({
+        data: [...this.state.data.concat(res.data.data)],
+        hasNextPage: res.data.hasNextPage
+      })
+    } catch (error) {
+      console.log("error:", error);
     }
-}
+  }
+
+  handleLoadMore = () => {
+    if (this.state.hasNextPage) {
+      this.page = this.page + 1;
+      // deley
+      setTimeout(() => {
+        this.getProducts()
+      }, 2000);
+
+    }
+  }
+
+  renderItem = ({ item, index }) => {
+    return (
+      <TouchableOpacity style={styles.item}>
+        <Image 
+          source={{ uri: item.thumbnailUrl }} 
+          style={styles.avatar} 
+          resizeMode="contain" />
+        <View style={styles.wrapContent}>
+          <Text numberOfLines={2}>{item.id}</Text>
+          <Text style={styles.title}>{`${item.albumId}`}</Text>
+        </View>
+      </TouchableOpacity>
+    )
+  }
+
+  renderFooter = () => {
+    if (this.state.data && this.state.data.length < 0) {
+      return <></>
+    }
+    if (!this.state.hasNextPage) {
+      return <></>
+    }
+    return (
+      <View style={{ height: 20 }}>
+        <ActivityIndicator size="large" color="red" />
+      </View>
+    )
+  }
+
+  render() {
+    const { data } = this.state;
+    return (
+      <SafeAreaView style={styles.container}>
+        <FlatList
+          style={styles.list}
+          data={data}
+          keyExtractor={item => item}
+          renderItem={this.renderItem}
+          ListFooterComponent={this.renderFooter()}
+          onEndReached={() => this.handleLoadMore()}
+          onEndReachedThreshold={.4}
+        />
+      </SafeAreaView>
+    )
+  }
+
+};
 
 const styles = StyleSheet.create({
-    img: {
-        justifyContent: "center",
-        alignItems: "center",
-        marginBottom: 30,
-        paddingBottom: 60,
-        height: 120,
-        width: 350,
-        borderWidth: 1,
+  container: {
+    flex: 1
+  },
+  avatar: {
+    width: 80, height: 80
+  },
+  list: {
+    flex: 1,
+    padding: 8
+  },
+  item: {
+    marginTop: 8,
+    padding: 4,
+    flexDirection: 'row',
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
     },
-    flat: {
-        flex: 1,
-    },
-    container: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-    },
-})
-
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+    elevation: 3,
+    backgroundColor: 'white'
+  },
+  wrapContent: {
+    flex: 1
+  },
+  price: {
+    marginTop: 4,
+    fontWeight: 'bold',
+    color: 'blue'
+  }
+});
 
 export default hero;
