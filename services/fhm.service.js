@@ -33,6 +33,10 @@ export function getHeroMarvel(id) {
           name: hero.name,
           image: hero.thumbnail.path + SIZE_IMAGE + hero.thumbnail.extension,
           description: hero.description,
+          comics: hero.comics.items,
+          series: hero.series.items,
+          stories: hero.stories.items,
+          events: hero.events.items,
         };
       });
     })
