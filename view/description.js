@@ -8,42 +8,45 @@ import {
   View,
 } from 'react-native';
 import {Text} from 'react-native-paper';
-import {getHeroMarvel} from '../services/fhm.service';
+import {getComicsMarvel, getHeroMarvel} from '../services/fhm.service';
 import {useCallback, useEffect, useState} from 'react';
 import {DescriptionCard} from './description-card';
 
 function Description() {
-  const [data, setData] = useState('');
-  const loadData = useCallback(async () => {
+  const [hero, setHero] = useState('');
+  const [comics, setComics] = useState('');
+  const loadHeroesData = useCallback(async () => {
     const res = await getHeroMarvel(1009146);
-    setData(res[0]);
+    setHero(res[0]);
+    const comic = await getComicsMarvel(1009146);
+    setComics(comic[0]);
   }, []);
 
   useEffect(() => {
-    loadData();
-  }, [loadData]);
+    loadHeroesData();
+  }, [loadHeroesData]);
 
   return (
     <SafeAreaView>
       <View style={styles.screen}>
         {/*<Text style={styles.name}>{data.name}</Text>*/}
-        <Image style={styles.image} source={{uri: data.image}} />
-        <Text style={styles.description}>{data.description}</Text>
+        <Image style={styles.image} source={{uri: hero.image}} />
+        <Text style={styles.description}>{hero.description}</Text>
       </View>
-      <TouchableOpacity>
-        <Image
-          style={styles.icon}
-          source={{
-            uri: 'https://w7.pngwing.com/pngs/546/222/png-transparent-coloring-book-emoji-heart-drawing-the-heart-icon-love-child-color-thumbnail.png',
-          }}
-        />
-      </TouchableOpacity>
+      {/*<TouchableOpacity onPress={console.log('button was pressed')}>*/}
+      {/*  <Image*/}
+      {/*    style={styles.icon}*/}
+      {/*    source={{*/}
+      {/*      uri: 'https://w7.pngwing.com/pngs/546/222/png-transparent-coloring-book-emoji-heart-drawing-the-heart-icon-love-child-color-thumbnail.png',*/}
+      {/*    }}*/}
+      {/*  />*/}
+      {/*</TouchableOpacity>*/}
       <View>
         <ScrollView>
-          <DescriptionCard data={data.comics} name="Comics" />
-          <DescriptionCard data={data.series} name="Series" />
-          <DescriptionCard data={data.stories} name="Stories" />
-          <DescriptionCard data={data.events} name="Events" />
+          <DescriptionCard data={hero.name} name="Comics" />
+          <DescriptionCard data={hero.series} name="Series" />
+          <DescriptionCard data={hero.stories} name="Stories" />
+          <DescriptionCard data={hero.events} name="Events" />
         </ScrollView>
       </View>
     </SafeAreaView>
