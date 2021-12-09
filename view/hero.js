@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {Image, StyleSheet, View} from 'react-native';
 import {Button, Text} from 'react-native-paper';
-import { useEffect, useState } from "react";
+import {useEffect, useState} from 'react';
 import {getUriFromCamera} from '../helpers/camera';
 import {getFindMyHero} from '../services/fhm.service';
 

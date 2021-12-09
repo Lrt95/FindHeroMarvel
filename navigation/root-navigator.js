@@ -14,12 +14,18 @@ function FHMSTackNavigator() {
     <FHMStack.Navigator>
       <FHMStack.Screen name="SignIn" component={SignIn} />
       <FHMStack.Screen name="SignUp" component={SignUp} />
-      <FHMStack.Screen name="Home" component={Home} options={{headerLeft: null, gestureEnabled: false}}/>
+      <FHMStack.Screen
+        name="Home"
+        component={Home}
+        options={{headerLeft: null, gestureEnabled: false}}
+      />
       <FHMStack.Screen name="Description" component={Description} />
       <FHMStack.Screen
         name="Hero"
         component={Hero}
-        options={({ route }) => ({ title: route.params.name })}
+        options={({route}) => ({
+          title: route.params.name ? route.params.name : 'TEST',
+        })}
       />
     </FHMStack.Navigator>
   );

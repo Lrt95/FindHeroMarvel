@@ -73,7 +73,7 @@ const Home = ({navigation}) => {
         label={'Quel(le) héro(ine) je suis ?'}
         style={styles.fab}
         small
-        onPress={() => console.log('Pressed')}
+        onPress={() => navigation.navigate('Hero', {name: null})}
       />
     </View>
   );
