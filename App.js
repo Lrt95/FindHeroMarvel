@@ -22,6 +22,7 @@ const theme = {
     primary: '#FFFFFF',
     accent: '#F0131E',
     background: '#F0131E',
+    backgroundSecond: '#F0131E',
   },
 };
 
@@ -42,7 +43,7 @@ const App: () => Node = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: theme.colors.background,
+    backgroundColor: theme.colors.backgroundSecond,
   },
 });
 

@@ -44,7 +44,26 @@ function Hero({route, navigation}) {
   }
 
   function handleRedirect() {
-    navigation.navigate();
+    navigation.navigate('Description', {id});
+  }
+
+  function switchButton() {
+    return isIAm ? (
+      <>
+        <Button mode="contained" onPress={() => handleRedirect()}>
+          Voir la fiche héro
+        </Button>
+      </>
+    ) : (
+      <>
+        <Button
+          disabled={isPhoto}
+          mode="contained"
+          onPress={() => handleFindHero()}>
+          Je suis ?
+        </Button>
+      </>
+    );
   }
 
   return (
@@ -66,20 +85,7 @@ function Hero({route, navigation}) {
             Prendre une photo
           </Button>
         </View>
-        <View>
-          {isIAm ? (
-            <Button mode="contained" onPress={() => handleRedirect()}>
-              Voir la fiche héro
-            </Button>
-          ) : (
-            <Button
-              disabled={isPhoto}
-              mode="contained"
-              onPress={() => handleFindHero()}>
-              Je suis !
-            </Button>
-          )}
-        </View>
+        <View>{switchButton()}</View>
       </View>
     </View>
   );

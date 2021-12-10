@@ -53,6 +53,7 @@ function FormSignUp(props) {
         })
         .catch(error => {
           setInLoggin(false);
+          Alert.alert(error);
           console.log(error);
         });
     }

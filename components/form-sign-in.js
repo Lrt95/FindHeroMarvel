@@ -1,11 +1,6 @@
 import React from 'react';
 import {Formik} from 'formik';
-import {
-  Text,
-  TouchableOpacity,
-  View,
-  StyleSheet, LogBox,
-} from "react-native";
+import { Text, TouchableOpacity, View, StyleSheet, LogBox, Alert } from "react-native";
 import {Button} from 'react-native-paper';
 import InputTextFormik from './input-text-formik';
 import {validationSchema} from '../constantes/forms-validatations';
@@ -30,12 +25,14 @@ function FormSignIn(props) {
       .signInWithEmailAndPassword(data.email, data.password)
       .then(response => {
         if (response.user) {
+          console.log(response.user);
           dispatch(setUser(response.user.email));
         }
         setInLoggin(false);
       })
       .catch(error => {
         console.log(error);
+        Alert.alert(error);
         setInLoggin(false);
       });
   }

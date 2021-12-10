@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {StyleSheet} from 'react-native';
+import { StyleSheet, View } from "react-native";
 import {Card, Text, useTheme} from 'react-native-paper';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import FormSignIn from '../components/form-sign-in';
@@ -11,6 +11,7 @@ function SignIn({navigation}) {
   const theme = useTheme();
 
   useEffect(() => {
+    console.log('user', user);
     if (user.email !== '') {
       navigation.navigate('Home');
     }
@@ -18,14 +19,14 @@ function SignIn({navigation}) {
 
   return (
     <KeyboardAwareScrollView contentContainerStyle={{flexGrow: 1}}>
-      <Card style={{flex: 1, backgroundColor: theme.colors.background}}>
+      <View style={{flex: 1, backgroundColor: theme.colors.background}}>
         <Card.Content style={styles.containerLogo}>
           <Text style={styles.title}>FHM</Text>
         </Card.Content>
         <Card.Content style={styles.containerFormik}>
           <FormSignIn navigation={navigation} />
         </Card.Content>
-      </Card>
+      </View>
     </KeyboardAwareScrollView>
   );
 }

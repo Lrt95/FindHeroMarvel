@@ -1,10 +1,11 @@
 import React from 'react';
-import {Text} from 'react-native-paper';
+import { Button, Text, useTheme } from "react-native-paper";
 import {View} from 'react-native';
 
-function ReadMe(props) {
+function ReadMe({ navigation }) {
+  const theme = useTheme();
   return (
-    <View>
+    <View style={{flex: 1, backgroundColor: theme.colors.background}}>
       <Text>Hello World</Text>
     </View>
   );
