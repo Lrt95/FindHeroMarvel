@@ -19,8 +19,10 @@ const theme = {
   ...DefaultTheme,
   colors: {
     ...DefaultTheme.colors,
-    primary: 'tomato',
-    accent: 'yellow',
+    primary: '#FFFFFF',
+    accent: '#F0131E',
+    background: '#F0131E',
+    backgroundSecond: '#F0131E',
   },
 };
 
@@ -41,6 +43,7 @@ const App: () => Node = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: theme.colors.backgroundSecond,
   },
 });
 
