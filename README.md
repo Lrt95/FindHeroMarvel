@@ -40,7 +40,7 @@
         connecter pour rejoindre la home de l'application. La home est la liste
         des super-héros, avec une ScrollView infinie, qui permet de charger
         chaque héros par ordre alphabétique. Pour choisir son héros, il y a une
-        barre de recherche pour filtrer et ainsi trouver le héros qu'on chercher
+        barre de recherche pour filtrer et ainsi trouver le héros qu'on cherchait
         sans passer par le scroll. L'utilisateur clique sur un personnage et
         tombe directement sur une fiche du personnage : Image, description,
         comics d'apparition et une icone de like pour enregistrer ses
