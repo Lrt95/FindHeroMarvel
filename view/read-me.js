@@ -1,6 +1,6 @@
 import React from 'react';
 import {Text, useTheme} from 'react-native-paper';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, ScrollView} from 'react-native';
 
 function ReadMe({navigation}) {
   const theme = useTheme();
@@ -14,7 +14,7 @@ function ReadMe({navigation}) {
   }
 
   return (
-    <View style={{flex: 1, backgroundColor: theme.colors.background}}>
+    <ScrollView style={{flex: 1, backgroundColor: theme.colors.background}}>
       <Text style={styles.paraOne}>Projet FindHeroMarvel</Text>
 
       <Text style={styles.paraTwo}>
@@ -66,7 +66,7 @@ function ReadMe({navigation}) {
         comics d'apparition et une icone de like pour enregistrer ses
         personnages Favoris. Une déconnexion est aussi accessible.
       </Text>
-    </View>
+    </ScrollView>
   );
 }
 
