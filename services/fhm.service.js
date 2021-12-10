@@ -1,8 +1,8 @@
 import {
   getAllHeroesMarvelIo,
-  getComicsMarvelIo,
-  getHeroMarvelIo,
-} from './fhm-io.service';
+  getComicsMarvelIo, getEventsMarvelIo,
+  getHeroMarvelIo, getSeriesMarvelIo, getStoriesMarvelIo,
+} from "./fhm-io.service";
 
 const SIZE_IMAGE = '/portrait_large.';
 
@@ -66,6 +66,64 @@ export function getComicsMarvel(id) {
         return {
           name: comic.title,
           image: url + SIZE_IMAGE + comic.thumbnail.extension,
+        };
+      });
+    })
+    .catch(error => {
+      console.log(error);
+      return [];
+    });
+}
+
+export function getSeriesMarvel(id) {
+  return getSeriesMarvelIo(id)
+    .then(result => {
+      const series = result?.data?.data?.results
+        ? result?.data?.data?.results
+        : [];
+      return series.map(serie => {
+        const url = transformHttpToHttps(serie.thumbnail.path);
+        return {
+          name: serie.title,
+          image: url + SIZE_IMAGE + serie.thumbnail.extension,
+        };
+      });
+    })
+    .catch(error => {
+      console.log(error);
+      return [];
+    });
+}
+
+export function getStoriesMarvel(id) {
+  return getStoriesMarvelIo(id)
+    .then(result => {
+      const stories = result?.data?.data?.results
+        ? result?.data?.data?.results
+        : [];
+      return stories.map(story => {
+        return {
+          name: story.title,
+        };
+      });
+    })
+    .catch(error => {
+      console.log(error);
+      return [];
+    });
+}
+
+export function getEventsMarvel(id) {
+  return getEventsMarvelIo(id)
+    .then(result => {
+      const events = result?.data?.data?.results
+        ? result?.data?.data?.results
+        : [];
+      return events.map(event => {
+        const url = transformHttpToHttps(event.thumbnail.path);
+        return {
+          name: event.title,
+          image: url + SIZE_IMAGE + event.thumbnail.extension,
         };
       });
     })

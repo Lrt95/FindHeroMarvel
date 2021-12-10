@@ -7,7 +7,7 @@ function InputTextFormik(props) {
       <TextInput
         style={{backgroundColor: 'white'}}
         label={props.label}
-        theme={{ colors: 'black' }}
+        theme={{colors: 'black'}}
         mode="outlined"
         value={props.values}
         error={!!(props.touched && props.errors)}

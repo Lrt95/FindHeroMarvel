@@ -1,21 +1,6 @@
 import React, {useEffect, useMemo, useState} from 'react';
-import {
-  View,
-  FlatList,
-  Image,
-  StyleSheet,
-  ActivityIndicator,
-  TouchableOpacity,
-} from 'react-native';
-import {
-  Card,
-  Divider,
-  FAB,
-  Text,
-  TextInput,
-  Title,
-  useTheme,
-} from 'react-native-paper';
+import {View, FlatList, StyleSheet} from 'react-native';
+import {FAB, TextInput, useTheme} from 'react-native-paper';
 import {getAllHeroesMarvel} from '../services/fhm.service';
 import Spinner from '../components/spinner';
 import FlatListCard from '../components/flat-list-card';

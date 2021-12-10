@@ -2,27 +2,34 @@ import React from 'react';
 import {FlatList, Image, StyleSheet, View} from 'react-native';
 import {Card, Text} from 'react-native-paper';
 
+function Element(props: {item: any, ref: number}) {
+  return (
+    <View style={{alignItems: 'center', flex: 1}}>
+      <Image
+        style={{width: 140, height: 100, resizeMode: 'stretch'}}
+        source={{uri: props.item.image}}
+      />
+      <Text style={styles.cardText}>
+        {props.item.name}
+      </Text>
+    </View>
+  );
+}
+
 export function DescriptionCard(props) {
   return (
     <Card style={styles.card} horizontal={true}>
-      <Text>{props.name}</Text>
-      <FlatList
-        horizontal
-        data={props.data}
-        renderItem={({item, index}) => {
-          return (
-            <View>
-              <Image
-                style={{width: 50, height: 50}}
-                source={{uri: item.image}}
-              />
-              <Text style={styles.cardText} ref={index}>
-                {item.name}
-              </Text>
-            </View>
-          );
-        }}
-      />
+      <Card.Title title={props.name} />
+      <Card.Content>
+        <FlatList
+          style={{flex: 1}}
+          horizontal
+          data={props.data}
+          renderItem={({item, index}) => {
+            return <Element item={item} />;
+          }}
+        />
+      </Card.Content>
     </Card>
   );
 }
@@ -30,9 +37,10 @@ export function DescriptionCard(props) {
 const styles = StyleSheet.create({
   card: {
     flexDirection: 'row',
-    height: 80,
+    borderWidth: 5,
+    borderColor: 'black',
     margin: 5,
-    borderRadius: 10,
+    flex: 1,
   },
   cardText: {
     paddingRight: 10,

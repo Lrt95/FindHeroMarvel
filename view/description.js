@@ -1,34 +1,61 @@
 import * as React from 'react';
+import {ScrollView, TouchableOpacity, View} from 'react-native';
+import {useTheme} from 'react-native-paper';
 import {
-  Image,
-  SafeAreaView,
-  ScrollView,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import {Text} from 'react-native-paper';
-import {getComicsMarvel, getHeroMarvel} from '../services/fhm.service';
+  getComicsMarvel,
+  getEventsMarvel,
+  getHeroMarvel,
+  getSeriesMarvel,
+} from '../services/fhm.service';
 import {useCallback, useEffect, useState} from 'react';
 import {DescriptionCard} from '../components/description-card';
 import {useDispatch, useSelector} from 'react-redux';
-import { addLike, disLike } from "../store/reducer/user-reducer";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import {addLike, disLike} from '../store/reducer/user-reducer';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import CardDescriptionHero from '../components/card-description-hero';
+import Spinner from '../components/spinner';
 
 function Description({navigation, route}) {
-  const [hero, setHero] = useState('');
-  const [comics, setComics] = useState('');
+  const [hero, setHero] = useState({});
+  const [comics, setComics] = useState([]);
+  const [series, setSeries] = useState([]);
+  const [events, setEvents] = useState([]);
+  const [isLoaded, setIsloaded] = useState(false);
   const dispatch = useDispatch();
   const user = useSelector(state => state.user.user);
+  const theme = useTheme();
 
   const loadHeroesData = useCallback(async () => {
-    console.log(route.params.id);
-    const res = await getHeroMarvel(route.params.id);
-    setHero(res[0]);
-    // const comic = await getComicsMarvel(1009146);
+    getHeroMarvel(route.params.id).then(result => {
+      if (result.length > 0) {
+        setHero(result[0]);
+      }
+    });
     getComicsMarvel(route.params.id)
       .then(result => {
-        setComics(result);
+        if (result.length > 0) {
+          setComics(result);
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
+
+    getSeriesMarvel(route.params.id)
+      .then(result => {
+        if (result.length > 0) {
+          setSeries(result);
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
+
+    getEventsMarvel(route.params.id)
+      .then(result => {
+        if (result.length > 0) {
+          setEvents(result);
+        }
       })
       .catch(error => {
         console.log(error);
@@ -39,6 +66,14 @@ function Description({navigation, route}) {
     loadHeroesData();
   }, [loadHeroesData]);
 
+  useEffect(() => {
+    navigation.setParams({name: hero.name});
+  }, [hero, navigation]);
+
+  useEffect(() => {
+    setIsloaded(true);
+  }, [hero, events, series, comics]);
+
   function handleLike() {
     dispatch(addLike(route.params.id));
   }
@@ -47,61 +82,46 @@ function Description({navigation, route}) {
     dispatch(disLike(route.params.id));
   }
 
+  function favIcon() {
+    return (
+      <>
+        {user.likes.includes(route.params.id) ? (
+          <TouchableOpacity onPress={handleDisLike}>
+            <MaterialCommunityIcons name="heart" size={50} />
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity onPress={handleLike}>
+            <MaterialCommunityIcons name="heart-outline" size={50} />
+          </TouchableOpacity>
+        )}
+      </>
+    );
+  }
+
   return (
-    <SafeAreaView>
-      <View style={styles.screen}>
-        {/*<Text style={styles.name}>{data.name}</Text>*/}
-        <Image style={styles.image} source={{uri: hero.image}} />
-        <Text style={styles.description}>{hero.description}</Text>
-      </View>
-      {user.likes.includes(route.params.id) ? (
-        <TouchableOpacity onPress={handleDisLike}>
-          <MaterialCommunityIcons name="heart" size={50} />
-        </TouchableOpacity>
+    <View style={{flex: 1, backgroundColor: theme.colors.background}}>
+      {isLoaded ? (
+        <>
+          <CardDescriptionHero favIcon={favIcon()} hero={hero} />
+          <View style={{flex: 2}}>
+            <ScrollView>
+              {comics.length > 0 ? (
+                <DescriptionCard data={comics} name="Comics" />
+              ) : null}
+              {series.length > 0 ? (
+                <DescriptionCard data={series} name="Series" />
+              ) : null}
+              {events.length > 0 ? (
+                <DescriptionCard data={events} name="Events" />
+              ) : null}
+            </ScrollView>
+          </View>
+        </>
       ) : (
-        <TouchableOpacity onPress={handleLike}>
-          <MaterialCommunityIcons name="heart-outline" size={50} />
-        </TouchableOpacity>
+        <Spinner />
       )}
-      <View>
-        <ScrollView>
-          <DescriptionCard data={comics} name="Comics" />
-          <DescriptionCard data={hero.series} name="Series" />
-          <DescriptionCard data={hero.stories} name="Stories" />
-          <DescriptionCard data={hero.events} name="Events" />
-        </ScrollView>
-      </View>
-    </SafeAreaView>
+    </View>
   );
 }
-
-const styles = StyleSheet.create({
-  screen: {
-    flexDirection: 'row',
-  },
-  icon: {
-    width: 30,
-    height: 30,
-    alignSelf: 'flex-end',
-    marginRight: 10,
-    marginTop: -30,
-  },
-  name: {
-    textAlign: 'center',
-    fontSize: 20,
-    padding: 5,
-  },
-  image: {
-    width: 100,
-    height: 140,
-    padding: 5,
-    flex: 1,
-  },
-  description: {
-    padding: 5,
-    textAlign: 'justify',
-    flex: 3,
-  },
-});
 
 export default Description;

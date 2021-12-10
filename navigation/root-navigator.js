@@ -46,11 +46,12 @@ function FHMSTackNavigator() {
       <FHMStack.Screen
         name="Description"
         component={Description}
-        options={{
-          title: 'Description',
+        options={({route}) => ({
+          headerBackTitle: 'Retour',
+          title: route.params.name ? route.params.name : 'Description',
           headerTintColor: theme.colors.primary,
           headerStyle: {backgroundColor: theme.colors.background},
-        }}
+        })}
       />
       <FHMStack.Screen
         name="Hero"
@@ -59,6 +60,7 @@ function FHMSTackNavigator() {
           title: route.params.name
             ? route.params.name
             : 'Quel(le) héro(ine) es-tu?',
+          headerBackTitle: 'Retour',
           headerTintColor: theme.colors.primary,
           headerStyle: {backgroundColor: theme.colors.background},
         })}

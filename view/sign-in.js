@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {StyleSheet} from 'react-native';
-import { Card, Text, useTheme } from "react-native-paper";
+import {Card, Text, useTheme} from 'react-native-paper';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import FormSignIn from '../components/form-sign-in';
 import {useSelector} from 'react-redux';
