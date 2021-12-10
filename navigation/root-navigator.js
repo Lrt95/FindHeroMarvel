@@ -119,7 +119,7 @@ function MyTabs() {
           tabBarIcon: ({color, size}) => (
             <MaterialCommunityIcons
               name="view-list"
-              color={color}
+              color={theme.colors.primary}
               size={size}
             />
           ),
