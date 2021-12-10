@@ -75,11 +75,11 @@ function Description({navigation, route}) {
   }, [hero, events, series, comics]);
 
   function handleLike() {
-    dispatch(addLike(route.params.id));
+    dispatch(addLike({idHero: route.params.id, user}));
   }
 
   function handleDisLike() {
-    dispatch(disLike(route.params.id));
+    dispatch(disLike({ idHero: route.params.id, user }));
   }
 
   function favIcon() {

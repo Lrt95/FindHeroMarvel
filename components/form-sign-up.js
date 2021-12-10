@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 import {Formik} from 'formik';
 import {validationSchema} from '../constantes/forms-validatations';
 import {
-  TouchableOpacity,
   View,
   StyleSheet,
   Platform,
@@ -53,8 +52,7 @@ function FormSignUp(props) {
         })
         .catch(error => {
           setInLoggin(false);
-          Alert.alert(error);
-          console.log(error);
+          displayToast(error.toString());
         });
     }
   }
@@ -114,11 +112,6 @@ function FormSignUp(props) {
               onPress={handleSubmit}>
               Créer Compte
             </Button>
-            <TouchableOpacity
-              style={styles.registerBtn}
-              onPress={() => console.log('FB')}>
-              <Text style={{color: '#fff'}}>S'enregistrer avec Facebook</Text>
-            </TouchableOpacity>
           </View>
           {inLoggin ? <Spinner /> : <View style={{flex: 1}} />}
         </View>

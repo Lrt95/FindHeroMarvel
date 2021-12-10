@@ -1,6 +1,13 @@
 import React from 'react';
 import {Formik} from 'formik';
-import { Text, TouchableOpacity, View, StyleSheet, LogBox, Alert } from "react-native";
+import {
+  View,
+  StyleSheet,
+  LogBox,
+  Alert,
+  Platform,
+  ToastAndroid,
+} from 'react-native';
 import {Button} from 'react-native-paper';
 import InputTextFormik from './input-text-formik';
 import {validationSchema} from '../constantes/forms-validatations';
@@ -16,6 +23,14 @@ function FormSignIn(props) {
 
   LogBox.ignoreLogs(['Require cycle:']);
 
+  function displayToast(message) {
+    if (Platform.OS === 'android') {
+      ToastAndroid.show(message, ToastAndroid.LONG);
+    } else {
+      Alert.alert(message);
+    }
+  }
+
   async function getSignIn(values, action) {
     const data = {email: values.email, password: values.password};
     setInLoggin(true);
@@ -25,14 +40,13 @@ function FormSignIn(props) {
       .signInWithEmailAndPassword(data.email, data.password)
       .then(response => {
         if (response.user) {
-          console.log(response.user);
           dispatch(setUser(response.user.email));
         }
         setInLoggin(false);
       })
       .catch(error => {
         console.log(error);
-        Alert.alert(error);
+        displayToast(error.toString());
         setInLoggin(false);
       });
   }
@@ -99,11 +113,6 @@ function FormSignIn(props) {
               onPress={handleSignUp}>
               Inscription
             </Button>
-            <TouchableOpacity
-              style={styles.loginBtnFb}
-              onPress={() => console.log('Google')}>
-              <Text style={{color: '#fff'}}>Connexion avec Facebook</Text>
-            </TouchableOpacity>
           </View>
           {inLoggin ? <Spinner /> : <View style={{flex: 1}} />}
         </View>
