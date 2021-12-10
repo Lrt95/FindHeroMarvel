@@ -9,7 +9,7 @@
         https://developer.marvel.com/documentation/getting_started
      
         Cette application a été créée par Antony Correia, Marion Meurant, Souhayl
-        Bendro et Maxime Lamy.
+        Bendroh et Maxime Lamy.
       
 
     
