@@ -1,6 +1,6 @@
 # FindHeroMarvel
 
- Ce projet consiste a répertorié une partie des super-héros de l'univers
+ Ce projet consiste à répertorié une partie des super-héros de l'univers
         Marvel. De Captain America en passant par Black Panther à Iron Man. Vous
         retrouverez à partir d'une liste vos super-héros favoris. Pour en savoir
         plus sur le personnage, il faudra cliquer dessus pour découvrir la
@@ -8,12 +8,12 @@
         séries. L'API utilisé est The Marvel Comics API :
         https://developer.marvel.com/documentation/getting_started
      
-        Cet application a été crée par Antony Correia, Marion Meurant, Souhayl
+        Cette application a été créée par Antony Correia, Marion Meurant, Souhayl
         Bendro et Maxime Lamy.
       
 
     
-        Pour nous aider, nous avons utilisés les modules :
+        Pour nous aider, nous avons utilisé les modules :
        - react-native-async-storage/async-storage
        - @react-navigation/bottom-tabs
        - @react-navigation/native
